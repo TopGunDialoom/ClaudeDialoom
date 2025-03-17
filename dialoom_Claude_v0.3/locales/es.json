@@ -1,0 +1,46 @@
+{
+  "errors": {
+    "unexpected_error": "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.",
+    "invalid_credentials": "Usuario o contraseña incorrectos.",
+    "unauthorized": "No estás autorizado para realizar esta acción.",
+    "forbidden": "Acceso prohibido.",
+    "not_found": "Recurso no encontrado.",
+    "user_not_found": "Usuario no encontrado.",
+    "email_exists": "Esta dirección de correo electrónico ya está en uso."
+  },
+  "validation": {
+    "required_field": "Este campo es obligatorio.",
+    "invalid_email": "Por favor, introduzca una dirección de correo electrónico válida.",
+    "min_length": "Debe tener al menos {min} caracteres.",
+    "max_length": "Debe tener como máximo {max} caracteres.",
+    "password_mismatch": "Las contraseñas no coinciden."
+  },
+  "notifications": {
+    "new_message": "Nuevo mensaje de {name}.",
+    "meeting_reminder": "Recordatorio: Reunión \"{title}\" a las {time}.",
+    "new_notification": "Tienes una nueva notificación.",
+    "account_approved": "Tu cuenta ha sido aprobada."
+  },
+  "emails": {
+    "welcome_subject": "¡Bienvenido a Dialoom!",
+    "welcome_body": "Hola {name},\n\nGracias por unirte a Dialoom. Estamos encantados de tenerte con nosotros. Si tienes alguna pregunta, no dudes en contactar a nuestro equipo de soporte.\n\nSaludos,\nEl equipo de Dialoom"
+  },
+  "general": {
+    "ok": "Aceptar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "yes": "Sí",
+    "no": "No",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "search": "Buscar",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "sign_up": "Registrarse",
+    "profile": "Perfil",
+    "settings": "Configuración"
+  }
+}

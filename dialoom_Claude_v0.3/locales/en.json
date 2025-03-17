@@ -1,0 +1,46 @@
+{
+  "errors": {
+    "unexpected_error": "An unexpected error occurred. Please try again later.",
+    "invalid_credentials": "Invalid username or password.",
+    "unauthorized": "You are not authorized to perform this action.",
+    "forbidden": "Access forbidden.",
+    "not_found": "Resource not found.",
+    "user_not_found": "User not found.",
+    "email_exists": "This email address is already in use."
+  },
+  "validation": {
+    "required_field": "This field is required.",
+    "invalid_email": "Please enter a valid email address.",
+    "min_length": "Must be at least {min} characters.",
+    "max_length": "Must be at most {max} characters.",
+    "password_mismatch": "Passwords do not match."
+  },
+  "notifications": {
+    "new_message": "New message from {name}.",
+    "meeting_reminder": "Reminder: Meeting \"{title}\" at {time}.",
+    "new_notification": "You have a new notification.",
+    "account_approved": "Your account has been approved."
+  },
+  "emails": {
+    "welcome_subject": "Welcome to Dialoom!",
+    "welcome_body": "Hello {name},\n\nThank you for joining Dialoom. We're excited to have you on board. If you have any questions, feel free to contact our support team.\n\nBest regards,\nThe Dialoom Team"
+  },
+  "general": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "next": "Next",
+    "close": "Close",
+    "save": "Save",
+    "delete": "Delete",
+    "search": "Search",
+    "login": "Log In",
+    "logout": "Log Out",
+    "sign_up": "Sign Up",
+    "profile": "Profile",
+    "settings": "Settings"
+  }
+}

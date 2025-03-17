@@ -1,0 +1,18 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "assets": [
+      {
+        "include": "**/*.{json,html,css}",
+        "outDir": "dist"
+      },
+      {
+        "include": "../locales/**/*",
+        "outDir": "dist/locales"
+      }
+    ],
+    "watchAssets": true
+  }
+}

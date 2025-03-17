@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "${PORT:-3000}:3000"
+    command: npm run start:dev
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - dialoom-network
+
+networks:
+  dialoom-network:
+    driver: bridge
