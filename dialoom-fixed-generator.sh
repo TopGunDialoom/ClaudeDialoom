@@ -2,19 +2,8 @@
 # =============================================================================
 # DIALOOM FRONTEND GENERATOR - VERSIÓN OPTIMIZADA MEJORADA
 # =============================================================================
-# Este script genera una aplicación React moderna para Dialoom que incluye:
-# - Estructura basada en características (features)
-# - Componentes optimizados con memoización
-# - Manejo de estado eficiente con React Query y adaptadores de API
-# - Autenticación robusta con manejo de token
-# - Integración optimizada con backend NestJS
-# - Soporte completo para internacionalización
-# - Diseño responsive para múltiples dispositivos
-# - Sistema de roles y permisos
-# - Interfaz alineada con la identidad visual de Dialoom (azul turquesa)
-# - Componentes de UI animados con Framer Motion
-# - Módulo de videollamadas optimizado para Agora
-# =============================================================================
+
+# (Rest of the script header and initial functions are unchanged)
 
 # Configuración de colores para los mensajes
 GREEN='\033[0;32m'
@@ -122,7 +111,7 @@ initialize_project() {
   REACT_VERSION=$(get_latest_version react)
   REACT_DOM_VERSION=$(get_latest_version react-dom)
   REACT_ROUTER_VERSION=$(get_latest_version react-router-dom)
-  REACT_QUERY_VERSION=$(get_latest_version @tanstack/react-query)
+  REACT_QUERY_VERSION=$(get_latest_version '@tanstack/react-query')
   MUI_VERSION=$(get_latest_version @mui/material)
   FRAMER_MOTION_VERSION=$(get_latest_version framer-motion)
   
@@ -209,6 +198,8 @@ EOF
   log_info "Dependencias instaladas correctamente."
 }
 
+
+
 # Crear estructura de carpetas del proyecto (basada en features)
 create_project_structure() {
   log_step "Creando estructura de carpetas del proyecto..."
@@ -242,7 +233,65 @@ create_project_structure() {
   mkdir -p src/api
   mkdir -p src/styles
   log_info "Estructura de carpetas creada correctamente."
+
+  # ------ Create Example Component Files ------
+  # We'll create LoginPage, DashboardPage, and AdminUsersPage as examples.
+
+  # src/features/auth/pages/LoginPage.tsx
+  cat > src/features/auth/pages/LoginPage.tsx << 'EOF'
+import React from 'react';
+import { Box, Typography } from '@mui/material';
+
+const LoginPage: React.FC = () => {
+  return (
+    <Box>
+      <Typography variant="h1">Login Page</Typography>
+      {/* Add your login form and logic here */}
+    </Box>
+  );
+};
+
+export default LoginPage;
+EOF
+
+  # src/features/dashboard/pages/DashboardPage.tsx
+  cat > src/features/dashboard/pages/DashboardPage.tsx << 'EOF'
+import React from 'react';
+import { Box, Typography } from '@mui/material';
+
+const DashboardPage: React.FC = () => {
+  return (
+    <Box>
+      <Typography variant="h1">Dashboard Page</Typography>
+      {/* Add your dashboard content here */}
+    </Box>
+  );
+};
+
+export default DashboardPage;
+EOF
+
+  # src/features/admin/pages/users/AdminUsersPage.tsx
+  cat > src/features/admin/pages/users/AdminUsersPage.tsx << 'EOF'
+import React from 'react';
+import { Box, Typography } from '@mui/material';
+
+const AdminUsersPage: React.FC = () => {
+  return (
+    <Box>
+      <Typography variant="h1">Admin Users Page</Typography>
+      {/* Add your admin user management content here */}
+    </Box>
+  );
+};
+
+export default AdminUsersPage;
+EOF
+
+# --- Continue with the rest of your script ---
+
 }
+
 
 # Preparar y optimizar imágenes
 prepare_assets() {
@@ -429,14 +478,14 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
-// https://vitejs.dev/config/
+# https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // Cargar variables de entorno según el modo
+  # Cargar variables de entorno según el modo
   const env = loadEnv(mode, process.cwd(), '')
   return {
     plugins: [
       react(),
-      // Plugin para generar sprites SVG automáticamente
+      # Plugin para generar sprites SVG automáticamente
       createSvgIconsPlugin({
         iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
         symbolId: 'icon-[dir]-[name]',
@@ -457,7 +506,7 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: true,
       proxy: {
-        // Proxy API requests para desarrollo local
+        # Proxy API requests para desarrollo local
         '/api': {
           target: env.VITE_API_URL || 'https://core.dialoom.com/api',
           changeOrigin: true,
@@ -468,7 +517,8 @@ export default defineConfig(({ mode }) => {
     build: {
       sourcemap: mode !== 'production',
       rollupOptions: {
-        output: {
+        output
+        {
           manualChunks: {
             'react-vendor': ['react', 'react-dom', 'react-router-dom'],
             'mui-vendor': ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
@@ -479,9 +529,9 @@ export default defineConfig(({ mode }) => {
           }
         }
       },
-      // Optimizaciones para imágenes
-      assetsInlineLimit: 4096, // 4kb
-      chunkSizeWarningLimit: 1000, // 1mb
+      # Optimizaciones para imágenes
+      assetsInlineLimit: 4096, # 4kb
+      chunkSizeWarningLimit: 1000, # 1mb
     },
     css: {
       preprocessorOptions: {
@@ -550,7 +600,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:jsx-a11y/recommended', // Accesibilidad
+    'plugin:jsx-a11y/recommended', # Accesibilidad
     'plugin:import/recommended',
     'plugin:import/typescript',
   ],
@@ -566,18 +616,18 @@ module.exports = {
       argsIgnorePattern: '^_',
       varsIgnorePattern: '^_',
     }],
-    'jsx-a11y/alt-text': 'error', // Garantizar que todas las imágenes tienen alt
+    'jsx-a11y/alt-text': 'error', # Garantizar que todas las imágenes tienen alt
     'jsx-a11y/click-events-have-key-events': 'warn',
     'import/order': ['warn', {
       'groups': [
-        'builtin', // Node.js built-in modules
-        'external', // Módulos npm instalados
-        'internal', // Importaciones internas de rutas alias
-        'parent', // Importaciones desde la carpeta padre
-        'sibling', // Importaciones desde el mismo nivel
-        'index', // Importaciones desde el índice de la carpeta actual
-        'object', // Importaciones de objetos de TypeScript
-        'type', // Importaciones de tipos
+        'builtin', # Node.js built-in modules
+        'external', # Módulos npm instalados
+        'internal', # Importaciones internas de rutas alias
+        'parent', # Importaciones desde la carpeta padre
+        'sibling', # Importaciones desde el mismo nivel
+        'index', # Importaciones desde el índice de la carpeta actual
+        'object', # Importaciones de objetos de TypeScript
+        'type', # Importaciones de tipos
       ],
       'pathGroups': [
         {
@@ -600,7 +650,7 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      'typescript': {}, // usa tsconfig.json para resolver rutas
+      'typescript': {}, # usa tsconfig.json para resolver rutas
       'node': {
         'extensions': ['.js', '.jsx', '.ts', '.tsx']
       }
@@ -676,11 +726,11 @@ export default {
     },
   },
   plugins: [],
-  // Configuración para asegurarse que Tailwind no sobrescribe los estilos de MUI
+  # Configuración para asegurarse que Tailwind no sobrescribe los estilos de MUI
   corePlugins: {
     preflight: false,
   },
-  important: '#root', // Ayuda a que Tailwind no entre en conflicto con MUI
+  important: '#root', # Ayuda a que Tailwind no entre en conflicto con MUI
 }
 EOF
   # Crear archivo de tipos común
@@ -700,12 +750,12 @@ EOF
   # Crear archivo mixins.scss para configuración global de SCSS
   mkdir -p src/styles
   cat > src/styles/mixins.scss << 'EOF'
-// Variables globales de SCSS
+# Variables globales de SCSS
 $primary-color: var(--color-primary-main);
 $secondary-color: var(--color-secondary-main);
 $border-radius: var(--border-radius);
 
-// Mixins para responsive design
+# Mixins para responsive design
 @mixin mobile {
   @media (max-width: 599px) {
     @content;
@@ -724,7 +774,7 @@ $border-radius: var(--border-radius);
   }
 }
 
-// Mixins para flexbox
+# Mixins para flexbox
 @mixin flex-center {
   display: flex;
   align-items: center;
@@ -737,7 +787,7 @@ $border-radius: var(--border-radius);
   justify-content: space-between;
 }
 
-// Mixins para animaciones
+# Mixins para animaciones
 @mixin fadeIn($duration: 0.3s) {
   animation: fadeIn $duration ease-in-out;
   
@@ -775,7 +825,7 @@ $border-radius: var(--border-radius);
   }
 }
 
-// Mixin para sombras
+# Mixin para sombras
 @mixin shadow($level: 1) {
   @if $level == 1 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -1333,7 +1383,7 @@ EOF
     "contentManagement": "Content Management",
     "createContent": "Create Content",
     "editContent": "Edit Content",
-    "deleteContent": "Delete Content",
+    "Delete Content",
     "contentCreated": "Content created successfully",
     "contentUpdated": "Content updated successfully",
     "contentDeleted": "Content deleted successfully",
@@ -1600,14 +1650,14 @@ import { ThemeProvider } from './shared/contexts/ThemeProvider'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { queryClient } from './api/queryClient'
-// Inicializar i18n
+# Inicializar i18n
 import './i18n/i18n'
-// Importar configuración global
+# Importar configuración global
 import './config/constants'
-// Reportar errores no capturados
+# Reportar errores no capturados
 const errorHandler = (event: ErrorEvent) => {
   console.error('Unhandled error:', event.error)
-  // Aquí podrías implementar logging a un servicio externo como Sentry
+  # Aquí podrías implementar logging a un servicio externo como Sentry
 }
 window.addEventListener('error', errorHandler)
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -1760,9 +1810,9 @@ import { ProtectedRoute } from './routes/ProtectedRoute'
 import { RoleBasedRoute } from './routes/RoleBasedRoute'
 import { UserRole } from './shared/types/User'
 import MainLayout from './shared/components/layout/MainLayout'
-// Importar página de error de manera no lazy para manejo inmediato de errores
+# Importar página de error de manera no lazy para manejo inmediato de errores
 import NotFoundPage from './features/error/pages/NotFoundPage'
-// Lazy loading de páginas para optimizar el rendimiento inicial
+# Lazy loading de páginas para optimizar el rendimiento inicial
 const LoginPage = lazy(() => import('./features/auth/pages/LoginPage'))
 const RegisterPage = lazy(() => import('./features/auth/pages/RegisterPage'))
 const ForgotPasswordPage = lazy(() => import('./features/auth/pages/ForgotPasswordPage'))
@@ -1776,7 +1826,7 @@ const CallPage = lazy(() => import('./features/calls/pages/CallPage'))
 const PaymentsPage = lazy(() => import('./features/payments/pages/PaymentsPage'))
 const ProfilePage = lazy(() => import('./features/profile/pages/ProfilePage'))
 const SettingsPage = lazy(() => import('./features/profile/pages/SettingsPage'))
-// Admin pages
+# Admin pages
 const AdminDashboardPage = lazy(() => import('./features/admin/pages/AdminDashboardPage'))
 const AdminUsersPage = lazy(() => import('./features/admin/pages/users/AdminUsersPage'))
 const AdminHostsPage = lazy(() => import('./features/admin/pages/hosts/AdminHostsPage'))
@@ -1785,7 +1835,7 @@ const AdminThemePage = lazy(() => import('./features/admin/pages/theme/AdminThem
 const AdminPaymentsPage = lazy(() => import('./features/admin/pages/payments/AdminPaymentsPage'))
 const AdminAchievementsPage = lazy(() => import('./features/admin/pages/achievements/AdminAchievementsPage'))
 const AdminReportsPage = lazy(() => import('./features/admin/pages/reports/AdminReportsPage'))
-// Componente mejorado para fallback de carga
+# Componente mejorado para fallback de carga
 const LoadingFallback = () => (
   <Box
     display="flex"
@@ -1803,7 +1853,7 @@ const LoadingFallback = () => (
 )
 function App() {
   const { isAuthenticated, user, loading } = useAuth()
-  // Verificar si el usuario es administrador
+  # Verificar si el usuario es administrador
   const isAdmin = user?.role === UserRole.ADMIN || user?.role === UserRole.SUPERADMIN
   const isHost = user?.role === UserRole.HOST || isAdmin
   if (loading) {
@@ -1811,18 +1861,18 @@ function App() {
   }
   return (
     <>
-      {/* Enlace para accesibilidad - saltar al contenido principal */}
+      # Enlace para accesibilidad - saltar al contenido principal
       <a href="#main-content" className="skip-link">
         Saltar al contenido principal
       </a>
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
-          {/* Rutas públicas */}
+          # Rutas públicas
           <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" /> : <LoginPage />} />
           <Route path="/register" element={isAuthenticated ? <Navigate to="/dashboard" /> : <RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-          {/* Rutas protegidas */}
+          # Rutas protegidas
           <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
             <Route element={<MainLayout />}>
               <Route path="/" element={<Navigate to="/dashboard" />} />
@@ -1834,12 +1884,12 @@ function App() {
               <Route path="/payments" element={<PaymentsPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/settings" element={<SettingsPage />} />
-              {/* Rutas específicas de host */}
+              # Rutas específicas de host
               <Route element={<RoleBasedRoute isAllowed={isHost} redirectTo="/dashboard" />}>
                 <Route path="/host/dashboard" element={<DashboardPage isHostView />} />
                 <Route path="/host/reservations" element={<ReservationsPage isHostView />} />
               </Route>
-              {/* Rutas de Admin */}
+              # Rutas de Admin
               <Route element={<RoleBasedRoute isAllowed={isAdmin} redirectTo="/dashboard" />}>
                 <Route path="/admin" element={<AdminDashboardPage />} />
                 <Route path="/admin/users" element={<AdminUsersPage />} />
@@ -1852,13 +1902,13 @@ function App() {
               </Route>
             </Route>
           </Route>
-          {/* Ruta de videollamada */}
+          # Ruta de videollamada
           <Route path="/call/:reservationId" element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <CallPage />
             </ProtectedRoute>
           } />
-          {/* Ruta 404 */}
+          # Ruta 404
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
@@ -1871,33 +1921,34 @@ EOF
   cat > src/api/queryClient.ts << 'EOF'
 import { QueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
-// Configurar cliente de React Query con opciones optimizadas
+
+# Configurar cliente de React Query con opciones optimizadas
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 1,
       retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
-      staleTime: 5 * 60 * 1000, // 5 minutos
-      gcTime: 10 * 60 * 1000, // 10 minutos
+      staleTime: 5 * 60 * 1000, # 5 minutos
+      gcTime: 10 * 60 * 1000, # 10 minutos
       refetchOnWindowFocus: false,
-      onError: error => {
+      onError: (error: unknown) => {  # Explicitly type 'error'
         const errorMessage = error instanceof Error
           ? error.message
-          : 'Error desconocido, por favor intenta nuevamente'
-        // Solo mostrar toast para errores que no sean 401 (no autorizados)
-        // ya que esos son manejados globalmente por el interceptor de axios
+          : 'Error desconocido, por favor intenta nuevamente';
+        # Solo mostrar toast para errores que no sean 401 (no autorizados)
+        # ya que esos son manejados globalmente por el interceptor de axios
         if (!errorMessage.includes('401')) {
-          toast.error(errorMessage)
+          toast.error(errorMessage);
         }
       }
     },
     mutations: {
       retry: 0,
-      onError: error => {
+      onError: (error: unknown) => { # Explicitly type 'error'
         const errorMessage = error instanceof Error
           ? error.message
-          : 'Error desconocido, por favor intenta nuevamente'
-        toast.error(errorMessage)
+          : 'Error desconocido, por favor intenta nuevamente';
+        toast.error(errorMessage);
       }
     }
   },
@@ -1906,13 +1957,13 @@ EOF
   # Crear API adapter para mejor manejo de endpoints del backend
   cat > src/api/apiAdapter.ts << 'EOF'
 import api from './api';
-// Definición de tipos genéricos para adaptadores de API
+# Definición de tipos genéricos para adaptadores de API
 type ApiResponseType<T> = {
   data: T;
   status: 'success' | 'error';
   message?: string;
 };
-// Clase adaptadora para endpoints que puede cambiar entre versiones
+# Clase adaptadora para endpoints que puede cambiar entre versiones
 class ApiEndpointAdapter {
   private baseEndpoint: string;
   private fallbackEndpoint?: string;
@@ -1922,13 +1973,13 @@ class ApiEndpointAdapter {
     this.fallbackEndpoint = fallbackEndpoint;
   }
   
-  // Método adaptador para peticiones GET
+  # Método adaptador para peticiones GET
   async get<T>(path: string = '', config?: any): Promise<T> {
     try {
       const response = await api.get<ApiResponseType<T>>(`${this.baseEndpoint}${path}`, config);
       return response.data.data;
     } catch (error: any) {
-      // Si hay un 404 y existe un fallback, intentarlo
+      # Si hay un 404 y existe un fallback, intentarlo
       if (error.response?.status === 404 && this.fallbackEndpoint) {
         console.warn(`Endpoint ${this.baseEndpoint} not found, trying fallback ${this.fallbackEndpoint}`);
         const fallbackResponse = await api.get<ApiResponseType<T>>(`${this.fallbackEndpoint}${path}`, config);
@@ -1938,7 +1989,7 @@ class ApiEndpointAdapter {
     }
   }
   
-  // Método adaptador para peticiones POST
+  # Método adaptador para peticiones POST
   async post<T, D = any>(path: string = '', data?: D, config?: any): Promise<T> {
     try {
       const response = await api.post<ApiResponseType<T>>(`${this.baseEndpoint}${path}`, data, config);
@@ -1953,7 +2004,7 @@ class ApiEndpointAdapter {
     }
   }
   
-  // Método adaptador para peticiones PUT
+  # Método adaptador para peticiones PUT
   async put<T, D = any>(path: string = '', data?: D, config?: any): Promise<T> {
     try {
       const response = await api.put<ApiResponseType<T>>(`${this.baseEndpoint}${path}`, data, config);
@@ -1968,7 +2019,7 @@ class ApiEndpointAdapter {
     }
   }
   
-  // Método adaptador para peticiones DELETE
+  # Método adaptador para peticiones DELETE
   async delete<T>(path: string = '', config?: any): Promise<T> {
     try {
       const response = await api.delete<ApiResponseType<T>>(`${this.baseEndpoint}${path}`, config);
@@ -1984,13 +2035,13 @@ class ApiEndpointAdapter {
   }
 }
 
-// Factory para crear adaptadores de API fácilmente
+# Factory para crear adaptadores de API fácilmente
 export const createApiAdapter = (
   baseEndpoint: string,
   fallbackEndpoint?: string
 ) => new ApiEndpointAdapter(baseEndpoint, fallbackEndpoint);
 
-// Instancias predefinidas para los diferentes servicios
+# Instancias predefinidas para los diferentes servicios
 export const authApi = createApiAdapter('/auth', '/v1/auth');
 export const hostsApi = createApiAdapter('/hosts', '/v1/hosts');
 export const reservationsApi = createApiAdapter('/reservations', '/v1/reservations');
@@ -1998,7 +2049,7 @@ export const callsApi = createApiAdapter('/calls', '/v1/calls');
 export const paymentsApi = createApiAdapter('/payments', '/v1/payments');
 export const notificationsApi = createApiAdapter('/notifications');
 
-// Exportar un objeto centralizado para facilitar la extensión
+# Exportar un objeto centralizado para facilitar la extensión
 const apiAdapters = {
   auth: authApi,
   hosts: hostsApi,
@@ -2012,8 +2063,8 @@ export default apiAdapters;
 EOF
   # Crear archivo de configuración
   cat > src/config/constants.ts << 'EOF'
-// Constantes de la aplicación
-// Rutas de API
+# Constantes de la aplicación
+# Rutas de API
 export const API_ROUTES = {
   AUTH: {
     LOGIN: '/auth/login',
@@ -2071,7 +2122,7 @@ export const API_ROUTES = {
     CONTENT_DETAIL: (id: string) => `/admin/content/${id}`,
   },
 };
-// Constantes de localización
+# Constantes de localización
 export const SUPPORTED_LANGUAGES = [
   { code: 'en', name: 'English' },
   { code: 'es', name: 'Español' },
@@ -2081,7 +2132,7 @@ export const SUPPORTED_LANGUAGES = [
   { code: 'nl', name: 'Nederlands' },
   { code: 'it', name: 'Italiano' },
 ];
-// Constantes para manejo de errores
+# Constantes para manejo de errores
 export const ERROR_MESSAGES = {
   NETWORK_ERROR: 'Error de conexión. Por favor, verifica tu conexión a internet.',
   SERVER_ERROR: 'Error del servidor. Por favor, inténtalo de nuevo más tarde.',
@@ -2093,23 +2144,24 @@ export const ERROR_MESSAGES = {
   CONFLICT: 'Conflicto. El recurso ya existe o ha sido modificado.',
   TIMEOUT: 'La solicitud ha excedido el tiempo límite. Por favor, inténtalo de nuevo.',
 };
-// Paginación por defecto
+# Paginación por defecto
 export const DEFAULT_PAGE_SIZE = 10;
 export const PAGE_SIZE_OPTIONS = [5, 10, 25, 50];
-// Duración de sesión
-export const SESSION_DURATION = 86400; // 24 horas en segundos
-// Constantes para videollamadas
+# Duración de sesión
+export const SESSION_DURATION = 86400; # 24 horas en segundos
+# Constantes para videollamadas
 export const CALL_QUALITY_PROFILES = {
   HIGH: {
-    videoQuality: '720p_2', // 720p a 30fps
+    videoQuality: '720p_2', # 720p a 30fps
     audioQuality: 'music_standard',
   },
   MEDIUM: {
-    videoQuality: '480p_2', // 480p a 30fps
+    videoQuality: '480p_2', # 4
+80p a 30fps
     audioQuality: 'music_standard',
   },
   LOW: {
-    videoQuality: '360p_1', // 360p a 15fps
+    videoQuality: '360p_1', # 360p a 15fps
     audioQuality: 'speech_standard',
   },
 };
@@ -2121,7 +2173,8 @@ import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend from 'i18next-http-backend'
 import { SUPPORTED_LANGUAGES } from '../config/constants'
-// Configurar i18next con detección automática y carga asíncrona
+
+# Configurar i18next con detección automática y carga asíncrona
 i18n
   .use(Backend)
   .use(LanguageDetector)
@@ -2131,7 +2184,7 @@ i18n
     supportedLngs: SUPPORTED_LANGUAGES.map(lang => lang.code),
     debug: import.meta.env.VITE_ENVIRONMENT === 'development',
     interpolation: {
-      escapeValue: false, // React ya escapa por defecto
+      escapeValue: false, # React ya escapa por defecto
     },
     backend: {
       loadPath: '/locales/{{lng}}/translation.json',
@@ -2142,7 +2195,7 @@ i18n
       lookupLocalStorage: 'i18nextLng',
       lookupCookie: 'i18next',
     },
-    load: 'languageOnly', // Cargar solo el idioma base (ej: 'es' en lugar de 'es-ES')
+    load: 'languageOnly', # Cargar solo el idioma base (ej: 'es' en lugar de 'es-ES')
     ns: ['translation'],
     defaultNS: 'translation',
     react: {
@@ -2150,11 +2203,13 @@ i18n
       transSupportBasicHtmlNodes: true,
     },
   })
-// Exportar una función para cambiar idioma que persiste en localStorage
+
+# Exportar una función para cambiar idioma que persiste en localStorage
 export const changeLanguage = (lng: string) => {
   i18n.changeLanguage(lng)
   localStorage.setItem('i18nextLng', lng)
 }
+
 export default i18n
 EOF
   log_info "Archivos principales creados correctamente."
@@ -2167,11 +2222,13 @@ create_contexts() {
   mkdir -p src/routes
   cat > src/routes/ProtectedRoute.tsx << 'EOF'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
+
 interface ProtectedRouteProps {
   isAuthenticated: boolean
   children?: React.ReactNode
   redirectPath?: string
 }
+
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   isAuthenticated,
   children,
@@ -2179,7 +2236,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   const location = useLocation()
   if (!isAuthenticated) {
-    // Guardar la ubicación actual para redirigir después del login
+    # Guardar la ubicación actual para redirigir después del login
     return <Navigate to={redirectPath} state={{ from: location }} replace />
   }
   return children ? <>{children}</> : <Outlet />
@@ -2188,11 +2245,13 @@ EOF
   # Crear RoleBasedRoute
   cat > src/routes/RoleBasedRoute.tsx << 'EOF'
 import { Navigate, Outlet } from 'react-router-dom'
+
 interface RoleBasedRouteProps {
   isAllowed: boolean
   redirectTo?: string
   children?: React.ReactNode
 }
+
 export const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({
   isAllowed,
   redirectTo = '/dashboard',
@@ -2213,6 +2272,7 @@ import { toast } from 'react-toastify'
 import api from '@/api/api'
 import { User } from '@/shared/types/User'
 import { API_ROUTES, SESSION_DURATION } from '@/config/constants'
+
 interface AuthContextType {
   isAuthenticated: boolean
   user: User | null
@@ -2242,7 +2302,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
-  // Función para verificar la autenticación actual
+  # Función para verificar la autenticación actual
   const checkAuth = useCallback(async () => {
     const token = localStorage.getItem('token')
     if (!token) {
@@ -2250,17 +2310,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return false
     }
     try {
-      // Verificar si el token ha expirado
+      # Verificar si el token ha expirado
       const decoded: JwtPayload = jwtDecode(token)
       const currentTime = Date.now() / 1000
       if (decoded.exp < currentTime) {
-        // Token ha expirado
+        # Token ha expirado
         handleLogout()
         return false
       }
-      // Configurar el header de autorización
+      # Configurar el header de autorización
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-      // Obtener el perfil del usuario
+      # Obtener el perfil del usuario
       const { data } = await api.get(API_ROUTES.AUTH.PROFILE)
       setUser(data)
       setIsAuthenticated(true)
@@ -2273,11 +2333,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return false
     }
   }, [])
-  // Verificar autenticación al montar el componente
+  # Verificar autenticación al montar el componente
   useEffect(() => {
     checkAuth()
   }, [checkAuth])
-  // Configurar comprobación periódica de expiración de token
+  # Configurar comprobación periódica de expiración de token
   useEffect(() => {
     if (!isAuthenticated) return
     const tokenCheckInterval = setInterval(() => {
@@ -2290,11 +2350,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const decoded: JwtPayload = jwtDecode(token)
         const currentTime = Date.now() / 1000
         const expiresIn = decoded.exp - currentTime
-        // Si quedan menos de 5 minutos, mostrar advertencia
+        # Si quedan menos de 5 minutos, mostrar advertencia
         if (expiresIn < 300) {
           toast.warning('Tu sesión está por expirar. Por favor, vuelve a iniciar sesión pronto.')
         }
-        // Si el token ha expirado, cerrar sesión
+        # Si el token ha expirado, cerrar sesión
         if (expiresIn <= 0) {
           clearInterval(tokenCheckInterval)
           handleLogout()
@@ -2304,13 +2364,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         clearInterval(tokenCheckInterval)
         handleLogout()
       }
-    }, 60000) // Comprobar cada minuto
+    }, 60000) # Comprobar cada minuto
     return () => clearInterval(tokenCheckInterval)
   }, [isAuthenticated])
   const handleLogin = async (email: string, password: string, twoFactorCode?: string) => {
     try {
       const { data } = await api.post(API_ROUTES.AUTH.LOGIN, { email, password, twoFactorCode })
-      // Verificar si se requiere 2FA
+      # Verificar si se requiere 2FA
       if (data.requiresTwoFactor) {
         return { requiresTwoFactor: true }
       }
@@ -2378,6 +2438,7 @@ import { useQuery } from '@tanstack/react-query'
 import api from '@/api/api'
 import { ThemeSettings } from '@/shared/types/ThemeSettings'
 import { API_ROUTES } from '@/config/constants'
+
 interface ThemeContextType {
   themeSettings: ThemeSettings | null
   theme: Theme
@@ -2394,7 +2455,7 @@ export const ThemeContext = createContext<ThemeContextType>({
 })
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [themeSettings, setThemeSettings] = useState<ThemeSettings | null>(null)
-  // Obtener la configuración del tema desde la API
+  # Obtener la configuración del tema desde la API
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['themeSettings'],
     queryFn: async () => {
@@ -2407,23 +2468,23 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
     },
     refetchOnWindowFocus: false,
-    staleTime: 24 * 60 * 60 * 1000, // 24 horas (el tema no cambia frecuentemente)
+    staleTime: 24 * 60 * 60 * 1000, # 24 horas (el tema no cambia frecuentemente)
   })
   useEffect(() => {
     if (data) {
       setThemeSettings(data)
     }
   }, [data])
-  // Crear el tema de MUI basado en la configuración
+  # Crear el tema de MUI basado en la configuración
   const theme = createTheme({
     palette: {
       primary: {
-        main: themeSettings?.primaryColor || '#1A7A8B', // Azul Dialoom
+        main: themeSettings?.primaryColor || '#1A7A8B', # Azul Dialoom
         light: themeSettings?.primaryColor ? lightenColor(themeSettings.primaryColor, 20) : '#2A96AB',
         dark: themeSettings?.primaryColor ? darkenColor(themeSettings.primaryColor, 20) : '#0A5A6A',
       },
       secondary: {
-        main: themeSettings?.secondaryColor || '#2D3748', // Gris oscuro para textos
+        main: themeSettings?.secondaryColor || '#2D3748', # Gris oscuro para textos
         light: themeSettings?.secondaryColor ? lightenColor(themeSettings.secondaryColor, 20) : '#4A5568',
         dark: themeSettings?.secondaryColor ? darkenColor(themeSettings.secondaryColor, 20) : '#1A202C',
       },
@@ -2476,7 +2537,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       },
     },
     shape: {
-      borderRadius: parseInt(themeSettings?.borderRadius || '12'), // Bordes más redondeados según imágenes
+      borderRadius: parseInt(themeSettings?.borderRadius || '12'), # Bordes más redondeados según imágenes
     },
     breakpoints: {
       values: {
@@ -2491,7 +2552,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       MuiButton: {
         styleOverrides: {
           root: {
-            borderRadius: 50, // Botones circulares como en las imágenes
+            borderRadius: 50, # Botones circulares como en las imágenes
             textTransform: 'none',
             padding: '8px 20px',
             fontWeight: 500,
@@ -2555,17 +2616,17 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       },
     },
   })
-  // Actualizar el tema
+  # Actualizar el tema
   const updateTheme = async (themeData: Partial<ThemeSettings>) => {
     try {
       await api.put(API_ROUTES.ADMIN.THEME, themeData)
-      await refetch() // Recargar la configuración del tema
+      await refetch() # Recargar la configuración del tema
     } catch (error) {
       console.error('Error al actualizar el tema:', error)
       throw error
     }
   }
-  // Aplicar CSS personalizado si existe
+  # Aplicar CSS personalizado si existe
   useEffect(() => {
     if (themeSettings?.customCss) {
       let styleEl = document.getElementById('custom-theme-css')
@@ -2576,7 +2637,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
       styleEl.innerHTML = themeSettings.customCss
     }
-    // Actualizar variables CSS
+    # Actualizar variables CSS
     if (themeSettings) {
       document.documentElement.style.setProperty('--color-primary-main', themeSettings.primaryColor || '#1A7A8B')
       document.documentElement.style.setProperty('--color-primary-light', lightenColor(themeSettings.primaryColor || '#1A7A8B', 20))
@@ -2611,9 +2672,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     </ThemeContext.Provider>
   )
 }
-// Utilidades para aclarar y oscurecer colores
+# Utilidades para aclarar y oscurecer colores
 function lightenColor(color: string, percent: number): string {
-  // Implementación simple para aclarar un color
+  # Implementación simple para aclarar un color
   const num = parseInt(color.replace('#', ''), 16);
   const amt = Math.round(2.55 * percent);
   const R = (num >> 16) + amt;
@@ -2627,7 +2688,7 @@ function lightenColor(color: string, percent: number): string {
   ).toString(16).slice(1);
 }
 function darkenColor(color: string, percent: number): string {
-  // Implementación simple para oscurecer un color
+  # Implementación simple para oscurecer un color
   return lightenColor(color, -percent);
 }
 EOF
@@ -2642,25 +2703,27 @@ create_api_service() {
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { ERROR_MESSAGES } from '@/config/constants'
-// Crear instancia de axios con configuración optimizada
+
+# Crear instancia de axios con configuración optimizada
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'https://core.dialoom.com/api',
-  timeout: 15000, // 15 segundos de timeout
+  timeout: 15000, # 15 segundos de timeout
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
   },
 })
-// Interceptor de peticiones
+
+# Interceptor de peticiones
 api.interceptors.request.use(
   (config) => {
-    // Agregar token de autenticación si existe
+    # Agregar token de autenticación si existe
     const token = localStorage.getItem('token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
-    // Agregar timestamp para evitar caché en peticiones GET
+    # Agregar timestamp para evitar caché en peticiones GET
     if (config.method?.toLowerCase() === 'get') {
       config.params = {
         ...config.params,
@@ -2673,59 +2736,60 @@ api.interceptors.request.use(
     return Promise.reject(error)
   }
 )
-// Interceptor de respuestas
+
+# Interceptor de respuestas
 api.interceptors.response.use(
   (response) => {
     return response
   },
   (error) => {
-    // Manejar errores de red
+    # Manejar errores de red
     if (!error.response) {
       toast.error(ERROR_MESSAGES.NETWORK_ERROR)
       return Promise.reject(new Error(ERROR_MESSAGES.NETWORK_ERROR))
     }
     const { status, data } = error.response
-    // Manejar diferentes códigos de estado
+    # Manejar diferentes códigos de estado
     switch (status) {
-      case 401: // No autorizado
+      case 401: # No autorizado
         if (localStorage.getItem('token')) {
           localStorage.removeItem('token')
-          // No mostrar toast si estamos en la página de login
+          # No mostrar toast si estamos en la página de login
           if (!window.location.pathname.includes('/login')) {
             toast.error(ERROR_MESSAGES.AUTH_ERROR)
-            // Redirigir a login después de un breve retraso
+            # Redirigir a login después de un breve retraso
             setTimeout(() => {
               window.location.href = '/login'
             }, 1500)
           }
         }
         break
-      case 403: // Prohibido
+      case 403: # Prohibido
         toast.error(ERROR_MESSAGES.FORBIDDEN)
         break
-      case 404: // No encontrado
+      case 404: # No encontrado
         toast.error(data?.message || ERROR_MESSAGES.NOT_FOUND)
         break
-      case 422: // Error de validación
+      case 422: # Error de validación
         if (data.errors) {
-          // Mostrar solo el primer error de validación para no sobrecargar
+          # Mostrar solo el primer error de validación para no sobrecargar
           const firstError = Object.values(data.errors)[0]
           toast.error(Array.isArray(firstError) ? firstError[0] : firstError)
         } else {
           toast.error(data?.message || ERROR_MESSAGES.VALIDATION_ERROR)
         }
         break
-      case 429: // Demasiadas peticiones
+      case 429: # Demasiadas peticiones
         toast.error('Demasiadas peticiones. Por favor, inténtalo más tarde.')
         break
-      case 500: // Error del servidor
-      case 502: // Bad Gateway
-      case 503: // Servicio no disponible
-      case 504: // Gateway Timeout
+      case 500: # Error del servidor
+      case 502: # Bad Gateway
+      case 503: # Servicio no disponible
+      case 504: # Gateway Timeout
         toast.error(ERROR_MESSAGES.SERVER_ERROR)
         break
       default:
-        // Para cualquier otro error
+        # Para cualquier otro error
         toast.error(data?.message || 'Ha ocurrido un error. Por favor, inténtalo de nuevo.')
     }
     return Promise.reject(error)
@@ -2740,7 +2804,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
-// Hook personalizado para mutaciones de API con mensajes automáticos
+# Hook personalizado para mutaciones de API con mensajes automáticos
 export function useApiMutation<TData = unknown, TError = unknown, TVariables = void, TContext = unknown>(
   mutationFn: (variables: TVariables) => Promise<TData>,
   options: {
@@ -2758,33 +2822,33 @@ export function useApiMutation<TData = unknown, TError = unknown, TVariables = v
   return useMutation({
     mutationFn,
     onSuccess: (data, variables, context) => {
-      // Mostrar mensaje de éxito si se proporciona
+      # Mostrar mensaje de éxito si se proporciona
       if (options.onSuccessMessage) {
         toast.success(t(options.onSuccessMessage));
       }
       
-      // Invalidar consultas si se especifican
+      # Invalidar consultas si se especifican
       if (options.invalidateQueries?.length) {
         options.invalidateQueries.forEach(queryKey => {
           queryClient.invalidateQueries({ queryKey: [queryKey] });
         });
       }
       
-      // Llamar al callback onSuccess personalizado si existe
+      # Llamar al callback onSuccess personalizado si existe
       if (options.onSuccess) {
-        return options.onSuccess(data, variables, context);
+        return options.onSuccess(data, variables, context); // context is already optional
       }
     },
     onError: (error: any, variables, context) => {
-      // Extraer mensaje de error
+      # Extraer mensaje de error
       const errorMessage = error?.response?.data?.message || error?.message || options.onErrorMessage || t('errors.somethingWentWrong');
       
-      // Mostrar mensaje de error
+      # Mostrar mensaje de error
       toast.error(errorMessage);
       
-      // Llamar al callback onError personalizado si existe
+      # Llamar al callback onError personalizado si existe
       if (options.onError) {
-        return options.onError(error, variables, context);
+        return options.onError(error, variables, context); // context is already optional
       }
     },
   });
@@ -2796,39 +2860,48 @@ EOF
 import api from '@/api/api'
 import { API_ROUTES } from '@/config/constants'
 import { User } from '@/shared/types/User'
+
 interface LoginResponse {
   accessToken: string
   user: User
   requiresTwoFactor?: boolean
 }
+
 interface RegisterResponse {
   accessToken: string
   user: User
 }
+
 export const loginUser = async (email: string, password: string, twoFactorCode?: string): Promise<LoginResponse> => {
   const response = await api.post(API_ROUTES.AUTH.LOGIN, { email, password, twoFactorCode })
   return response.data
 }
+
 export const registerUser = async (userData: any): Promise<RegisterResponse> => {
   const response = await api.post(API_ROUTES.AUTH.REGISTER, userData)
   return response.data
 }
+
 export const getUserProfile = async (): Promise<User> => {
   const response = await api.get(API_ROUTES.AUTH.PROFILE)
   return response.data
 }
+
 export const updateUserProfile = async (userData: Partial<User>): Promise<User> => {
   const response = await api.put(API_ROUTES.USERS.ME, userData)
   return response.data
 }
+
 export const changePassword = async (currentPassword: string, newPassword: string): Promise<any> => {
   const response = await api.put(API_ROUTES.AUTH.CHANGE_PASSWORD, { currentPassword, newPassword })
   return response.data
 }
+
 export const forgotPassword = async (email: string): Promise<any> => {
   const response = await api.post(API_ROUTES.AUTH.FORGOT_PASSWORD, { email })
   return response.data
 }
+
 export const resetPassword = async (token: string, password: string, passwordConfirmation: string): Promise<any> => {
   const response = await api.post(API_ROUTES.AUTH.RESET_PASSWORD, {
     token,
@@ -2837,14 +2910,17 @@ export const resetPassword = async (token: string, password: string, passwordCon
   })
   return response.data
 }
+
 export const setupTwoFactor = async (): Promise<any> => {
   const response = await api.post(API_ROUTES.AUTH.TWO_FACTOR_GENERATE)
   return response.data
 }
+
 export const enableTwoFactor = async (secret: string, code: string): Promise<any> => {
   const response = await api.post(API_ROUTES.AUTH.TWO_FACTOR_ENABLE, { secret, code })
   return response.data
 }
+
 export const disableTwoFactor = async (): Promise<any> => {
   const response = await api.put(API_ROUTES.AUTH.TWO_FACTOR_DISABLE)
   return response.data
@@ -2855,6 +2931,7 @@ EOF
 import api from '@/api/api'
 import { API_ROUTES } from '@/config/constants'
 import { Host } from '@/shared/types/Host'
+
 interface HostsQueryParams {
   page?: number
   limit?: number
@@ -2877,9 +2954,9 @@ interface HostsResponse {
 interface AvailabilityData {
   hostId: string
   availabilitySlots: {
-    day: number // 0-6 (domingo-sábado)
-    startTime: string // formato 'HH:MM'
-    endTime: string // formato 'HH:MM'
+    day: number # 0-6 (domingo-sábado)
+    startTime: string # formato 'HH:MM'
+    endTime: string # formato 'HH:MM'
   }[]
 }
 export const getAllHosts = async (params?: HostsQueryParams): Promise<HostsResponse> => {
@@ -2912,7 +2989,7 @@ export const getHostAvailability = async (hostId: string, startDate: string, end
   })
   return response.data
 }
-// Operaciones Admin
+# Operaciones Admin
 export const verifyHost = async (id: string): Promise<any> => {
   const response = await api.put(API_ROUTES.HOSTS.VERIFY(id))
   return response.data
@@ -2930,9 +3007,11 @@ import { Link as RouterLink } from 'react-router-dom'
 import { Box, Button, Container, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
+
 const NotFoundPage: React.FC = () => {
   const { t } = useTranslation()
-  return (
+  return
+(
     <Container maxWidth="md">
       <Box
         sx={{
@@ -3037,6 +3116,7 @@ import { Box, CssBaseline } from '@mui/material'
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 import Footer from './Footer'
+
 const MainLayout: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const drawerWidth = 260
@@ -3056,7 +3136,7 @@ const MainLayout: React.FC = () => {
       />
       <Box
         component="main"
-        id="main-content" // ID para accesibilidad - skip link
+        id="main-content" # ID para accesibilidad - skip link
         sx={{
           flexGrow: 1,
           p: { xs: 2, sm: 3 },
@@ -3066,9 +3146,9 @@ const MainLayout: React.FC = () => {
           flexDirection: 'column',
         }}
       >
-        <Box sx={{ height: 64 }} /> {/* Espacio para el Navbar */}
+        <Box sx={{ height: 64 }} /> # Espacio para el Navbar
         <Box sx={{ flexGrow: 1 }}>
-          <Outlet /> {/* Renderiza la ruta actual */}
+          <Outlet /> # Renderiza la ruta actual
         </Box>
         <Footer />
       </Box>
@@ -3106,6 +3186,7 @@ import { useTranslation } from 'react-i18next'
 import { SUPPORTED_LANGUAGES } from '@/config/constants'
 import { changeLanguage } from '@/i18n/i18n'
 import { motion } from 'framer-motion'
+
 interface NavbarProps {
   drawerWidth: number
   onDrawerToggle: () => void
@@ -3120,7 +3201,7 @@ const Navbar: React.FC<NavbarProps> = ({ drawerWidth, onDrawerToggle }) => {
   const [userMenuAnchorEl, setUserMenuAnchorEl] = useState<null | HTMLElement>(null)
   const [langMenuAnchorEl, setLangMenuAnchorEl] = useState<null | HTMLElement>(null)
   const [notificationsAnchorEl, setNotificationsAnchorEl] = useState<null | HTMLElement>(null)
-  // Detectar scroll para añadir sombra a la barra
+  # Detectar scroll para añadir sombra a la barra
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
@@ -3179,7 +3260,7 @@ const Navbar: React.FC<NavbarProps> = ({ drawerWidth, onDrawerToggle }) => {
         }}
       >
         <Toolbar sx={{ px: { xs: 1.5, sm: 3 }, py: 0.5, minHeight: '64px' }}>
-          {/* Logo/Brand */}
+          # Logo/Brand
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <IconButton
               color="inherit"
@@ -3216,7 +3297,7 @@ const Navbar: React.FC<NavbarProps> = ({ drawerWidth, onDrawerToggle }) => {
           <Box sx={{ flexGrow: 1 }} />
           {isAuthenticated ? (
             <>
-              {/* Notificaciones */}
+              # Notificaciones
               <Tooltip title={t('profile.notifications')}>
                 <IconButton color="inherit" onClick={handleNotificationsOpen}>
                   <Badge badgeContent={3} color="error">
@@ -3258,7 +3339,7 @@ const Navbar: React.FC<NavbarProps> = ({ drawerWidth, onDrawerToggle }) => {
                   </Box>
                 </MenuItem>
               </Menu>
-              {/* Selector de idioma */}
+              # Selector de idioma
               <Tooltip title={t('profile.language')}>
                 <IconButton color="inherit" onClick={handleLangMenuOpen}>
                   <LanguageIcon />
@@ -3300,7 +3381,7 @@ const Navbar: React.FC<NavbarProps> = ({ drawerWidth, onDrawerToggle }) => {
                   </MenuItem>
                 ))}
               </Menu>
-              {/* Menú de usuario */}
+              # Menú de usuario
               <motion.div whileTap={{ scale: 0.95 }}>
                 <IconButton
                   onClick={handleUserMenuOpen}
@@ -3405,6 +3486,7 @@ import { useAuth } from '@/shared/hooks/useAuth'
 import { useTranslation } from 'react-i18next'
 import { UserRole } from '@/shared/types/User'
 import { motion } from 'framer-motion'
+
 interface SidebarProps {
   drawerWidth: number
   mobileOpen: boolean
@@ -3431,7 +3513,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     setAdminOpen(!adminOpen);
   };
   
-  // Memoizar los items del menú para evitar re-renderizados innecesarios
+  # Memoizar los items del menú para evitar re-renderizados innecesarios
   const menuItems = useMemo(() => [
     {
       text: t('navigation.dashboard'),
@@ -3681,13 +3763,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       component="nav"
       sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
     >
-      {/* Mobile drawer */}
+      # Mobile drawer
       <Drawer
         variant="temporary"
         open={mobileOpen}
         onClose={onDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Mejor rendimiento en dispositivos móviles
+          keepMounted: true, # Mejor rendimiento en dispositivos móviles
         }}
         sx={{
           display: { xs: 'block', sm: 'none' },
@@ -3700,7 +3782,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       >
         {drawer}
       </Drawer>
-      {/* Desktop drawer */}
+      # Desktop drawer
       <Drawer
         variant="permanent"
         sx={{
@@ -3729,6 +3811,7 @@ import FacebookIcon from '@mui/icons-material/Facebook'
 import TwitterIcon from '@mui/icons-material/Twitter'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
+
 const Footer: React.FC = () => {
   const { t } = useTranslation()
   const theme = useTheme()
@@ -3910,8 +3993,10 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+
 const localizer = momentLocalizer(moment);
-// Tipos personalizados para eventos
+
+# Tipos personalizados para eventos
 interface CalendarEvent {
   id: string;
   title: string;
@@ -3940,13 +4025,13 @@ const Calendar: React.FC<CalendarProps> = ({
   const [view, setView] = useState(isMobile ? 'day' : 'week');
   const [date, setDate] = useState(new Date());
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-  // Animación para eventos al cambiar de vista
+  # Animación para eventos al cambiar de vista
   const eventPropGetter = useCallback(
     (event: CalendarEvent) => {
       let backgroundColor;
       let borderColor;
       let color = '#fff';
-      // Colores basados en estado
+      # Colores basados en estado
       switch (event.status) {
         case 'confirmed':
           backgroundColor = theme.palette.primary.main;
@@ -3991,7 +4076,7 @@ const Calendar: React.FC<CalendarProps> = ({
     },
     [theme]
   );
-  // Componente personalizado para eventos
+  # Componente personalizado para eventos
   const EventComponent = ({ event }: { event: CalendarEvent }) => (
     <motion.div
       initial={{ opacity: 0, y: 5 }}
@@ -4010,7 +4095,7 @@ const Calendar: React.FC<CalendarProps> = ({
       )}
     </motion.div>
   );
-  // Barra de herramientas personalizada
+  # Barra de herramientas personalizada
   const CustomToolbar = () => (
     <Box
       sx={{
@@ -4164,6 +4249,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ChatIcon from '@mui/icons-material/Chat';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+
 interface CallInterfaceProps {
   channelName: string;
   token: string;
@@ -4175,7 +4261,7 @@ interface CallInterfaceProps {
   clientImage?: string;
   onCallEnd: () => void;
 }
-// Componente de videollamada con efectos visuales y UI responsiva
+# Componente de videollamada con efectos visuales y UI responsiva
 const CallInterface: React.FC<CallInterfaceProps> = ({
   channelName,
   token,
@@ -4192,7 +4278,7 @@ const CallInterface: React.FC<CallInterfaceProps> = ({
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const localVideoRef = useRef<HTMLDivElement>(null);
   const remoteVideoRef = useRef<HTMLDivElement>(null);
-  // Estados para controlar la interfaz
+  # Estados para controlar la interfaz
   const [isMuted, setIsMuted] = useState(false);
   const [isVideoOff, setIsVideoOff] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
@@ -4200,15 +4286,15 @@ const CallInterface: React.FC<CallInterfaceProps> = ({
   const [callDuration, setCallDuration] = useState(0);
   const [connecting, setConnecting] = useState(true);
   const [remoteUsers, setRemoteUsers] = useState<any[]>([]);
-  // Simulación de inicialización de llamada
+  # Simulación de inicialización de llamada
   useEffect(() => {
-    // Simulamos la conexión a Agora (en producción esto usaría el SDK real)
+    # Simulamos la conexión a Agora (en producción esto usaría el SDK real)
     const timer = setTimeout(() => {
       setConnecting(false);
-      // Simulamos que hay un usuario remoto conectado
+      # Simulamos que hay un usuario remoto conectado
       setRemoteUsers([{ hasVideo: true, hasAudio: true }]);
     }, 3000);
-    // Temporizador para duración de llamada
+    # Temporizador para duración de llamada
     const durationTimer = setInterval(() => {
       setCallDuration(prev => prev + 1);
     }, 1000);
@@ -4217,29 +4303,29 @@ const CallInterface: React.FC<CallInterfaceProps> = ({
       clearInterval(durationTimer);
     };
   }, []);
-  // Control de micrófono
+  # Control de micrófono
   const handleToggleMic = () => {
     setIsMuted(prev => !prev);
   };
-  // Control de cámara
+  # Control de cámara
   const handleToggleCamera = () => {
     setIsVideoOff(prev => !prev);
   };
-  // Control de compartir pantalla
+  # Control de compartir pantalla
   const handleToggleScreenShare = () => {
     setIsScreenSharing(prev => !prev);
   };
-  // Formatear duración de llamada
+  # Formatear duración de llamada
   const formatDuration = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
     return `${hours > 0 ? `${hours}:` : ''}${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
-  // Renderizar interfaces de video
+  # Renderizar interfaces de video
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#121212' }}>
-      {/* Pantalla de conexión */}
+      # Pantalla de conexión
       {connecting && (
         <Box
           sx={{
@@ -4263,9 +4349,9 @@ const CallInterface: React.FC<CallInterfaceProps> = ({
           </Typography>
         </Box>
       )}
-      {/* Área principal de video */}
+      # Área principal de video
       <Grid container sx={{ flex: 1, position: 'relative' }}>
-        {/* Video remoto a pantalla completa */}
+        # Video remoto a pantalla completa
         <Grid item xs={12} sx={{ height: '100%', position: 'relative' }}>
           <Box
             sx={{
@@ -4280,7 +4366,7 @@ const CallInterface: React.FC<CallInterfaceProps> = ({
             }}
             ref={remoteVideoRef}
           >
-            {/* Si no hay conexión remota o la cámara remota está apagada */}
+            # Si no hay conexión remota o la cámara remota está apagada
             {(remoteUsers.length === 0 || !remoteUsers[0]?.hasVideo) ? (
               <Box
                 sx={{
@@ -4304,7 +4390,7 @@ const CallInterface: React.FC<CallInterfaceProps> = ({
                 </Typography>
               </Box>
             ) : (
-              // Placeholder para el video remoto (en producción sería renderizado por el SDK de Agora)
+              # Placeholder para el video remoto (en producción sería renderizado por el SDK de Agora)
               <Box sx={{
                 position: 'absolute',
                 width: '100%',
@@ -4329,7 +4415,7 @@ const CallInterface: React.FC<CallInterfaceProps> = ({
               </Box>
             )}
           </Box>
-          {/* Información de duración de llamada */}
+          # Información de duración de llamada
           <Box
             sx={{
               position: 'absolute',
@@ -4349,7 +4435,7 @@ const CallInterface: React.FC<CallInterfaceProps> = ({
               {formatDuration(callDuration)}
             </Typography>
           </Box>
-          {/* Video local en pequeño */}
+          # Video local en pequeño
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -4391,7 +4477,7 @@ const CallInterface: React.FC<CallInterfaceProps> = ({
                   />
                 </Box>
               ) : (
-                // Placeholder para el video local (en producción sería renderizado por el SDK de Agora)
+                # Placeholder para el video local (en producción sería renderizado por el SDK de Agora)
                 <Box sx={{
                   width: '100%',
                   height: '100%',
@@ -4409,7 +4495,7 @@ const CallInterface: React.FC<CallInterfaceProps> = ({
           </motion.div>
         </Grid>
       </Grid>
-      {/* Controles de llamada */}
+      # Controles de llamada
       <Paper
         elevation={10}
         sx={{
@@ -4585,6 +4671,7 @@ export interface SocialProfile {
 EOF
   cat > src/shared/types/Host.ts << 'EOF'
 import { User } from './User';
+
 export interface Host {
   userId: string;
   user: {
@@ -4614,9 +4701,9 @@ export interface Host {
 export interface AvailabilitySlot {
   id: string;
   hostId: string;
-  day: number; // 0 = domingo, 6 = sábado
-  startTime: string; // formato HH:MM
-  endTime: string; // formato HH:MM
+  day: number; # 0 = domingo, 6 = sábado
+  startTime: string; # formato HH:MM
+  endTime: string; # formato HH:MM
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -4628,7 +4715,7 @@ export interface Review {
   hostId: string;
   rating: number;
   comment?: string;
-  isHostReview: boolean; // true si es una reseña del anfitrión al cliente
+  isHostReview: boolean; # true si es una reseña del anfitrión al cliente
   createdAt: Date;
   updatedAt: Date;
   user?: {
@@ -4666,6 +4753,7 @@ EOF
   cat > src/shared/hooks/useAuth.ts << 'EOF'
 import { useContext } from 'react';
 import { AuthContext } from '@/shared/contexts/AuthContext';
+
 export const useAuth = () => {
   return useContext(AuthContext);
 };
@@ -4673,6 +4761,7 @@ EOF
   cat > src/shared/hooks/useTheme.ts << 'EOF'
 import { useContext } from 'react';
 import { ThemeContext } from '@/shared/contexts/ThemeProvider';
+
 export const useTheme = () => {
   return useContext(ThemeContext);
 };
@@ -4682,8 +4771,10 @@ import { useTranslation } from 'react-i18next';
 import { useCallback } from 'react';
 import { SUPPORTED_LANGUAGES } from '@/config/constants';
 import { changeLanguage } from '@/i18n/i18n';
+
 export const useI18n = () => {
   const { t, i18n } = useTranslation();
+
   const handleChangeLanguage = useCallback((lng: string) => {
     changeLanguage(lng);
   }, []);
@@ -4742,6 +4833,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '@/shared/hooks/useTheme';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+
 const StyleGuidePage: React.FC = () => {
   const { t } = useTranslation();
   const { theme, themeSettings } = useTheme();
@@ -4763,7 +4855,7 @@ const StyleGuidePage: React.FC = () => {
         Dialoom Style Guide
       </Typography>
       <Grid container spacing={6}>
-        {/* Colores */}
+        # Colores
         <Grid item xs={12}>
           <Paper sx={{ p: 3, mb: 4 }}>
             <Typography variant="h4" gutterBottom>
@@ -4796,7 +4888,7 @@ const StyleGuidePage: React.FC = () => {
             </Grid>
           </Paper>
         </Grid>
-        {/* Tipografía */}
+        # Tipografía
         <Grid item xs={12}>
           <Paper sx={{ p: 3, mb: 4 }}>
             <Typography variant="h4" gutterBottom>
@@ -4835,7 +4927,7 @@ const StyleGuidePage: React.FC = () => {
             </Box>
           </Paper>
         </Grid>
-        {/* Botones */}
+        # Botones
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, mb: 4, height: '100%' }}>
             <Typography variant="h4" gutterBottom>
@@ -4846,7 +4938,7 @@ const StyleGuidePage: React.FC = () => {
                 <Button variant="contained">Primary</Button>{' '}
                 <Button variant="contained" color="secondary">Secondary</Button>{' '}
                 <Button variant="contained" color="success">Success</Button>{' '}
-                <Button variant="contained" color="error">Error</Button>
+                <Button variant="contained" color="error">Error</Button
               </Box>
               <Box>
                 <Button variant="outlined">Primary</Button>{' '}
@@ -4894,7 +4986,7 @@ const StyleGuidePage: React.FC = () => {
             </Box>
           </Paper>
         </Grid>
-        {/* Formularios */}
+        # Formularios
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, mb: 4, height: '100%' }}>
             <Typography variant="h4" gutterBottom>
@@ -4940,7 +5032,7 @@ const StyleGuidePage: React.FC = () => {
             </Box>
           </Paper>
         </Grid>
-        {/* Tarjetas y Contenedores */}
+        # Tarjetas y Contenedores
         <Grid item xs={12}>
           <Paper sx={{ p: 3, mb: 4 }}>
             <Typography variant="h4" gutterBottom>
@@ -5056,7 +5148,7 @@ const StyleGuidePage: React.FC = () => {
             </Grid>
           </Paper>
         </Grid>
-        {/* Animaciones */}
+        # Animaciones
         <Grid item xs={12}>
           <Paper sx={{ p: 3, mb: 4 }}>
             <Typography variant="h4" gutterBottom>
@@ -5250,15 +5342,20 @@ if [ ! -f "\$APP_DIR/package.json" ]; then
 fi
 # Ir al directorio de la aplicación
 cd "\$APP_DIR" || exit 1
+
 log_info "Actualizando dependencias..."
 npm install --legacy-peer-deps
+
 log_info "Compilando la aplicación para producción..."
 npm run build
+
 if [ \$? -ne 0 ]; then
   log_error "Error durante la compilación"
   exit 1
 fi
+
 log_info "Compilación completada con éxito"
+
 # Crear archivo .htaccess para Apache (por si se usa en lugar de Nginx)
 cat > dist/.htaccess << 'EOF_HTACCESS'
 <IfModule mod_rewrite.c>
@@ -5286,6 +5383,7 @@ cat > dist/.htaccess << 'EOF_HTACCESS'
   </FilesMatch>
 </IfModule>
 EOF_HTACCESS
+
 # Crear archivo web.config para IIS (por si se usa en Windows)
 cat > dist/web.config << 'EOF_WEB_CONFIG'
 <?xml version="1.0" encoding="UTF-8"?>
@@ -5318,12 +5416,14 @@ cat > dist/web.config << 'EOF_WEB_CONFIG'
   </system.webServer>
 </configuration>
 EOF_WEB_CONFIG
+
 # Crear robots.txt
 cat > dist/robots.txt << EOF_ROBOTS
 User-agent: *
 Allow: /
 Sitemap: https://$FRONTEND_DOMAIN/sitemap.xml
 EOF_ROBOTS
+
 # Copiar archivo de configuración Nginx si no existe
 if [ ! -f "/var/www/vhosts/$FRONTEND_DOMAIN/conf/web/nginx.conf" ]; then
   log_info "Copiando configuración de Nginx..."
@@ -5335,9 +5435,11 @@ else
   log_warn "El archivo de configuración de Nginx ya existe. No se sobrescribirá."
   log_info "Si deseas actualizarlo, cópialo manualmente o elimina el archivo existente."
 fi
+
 # Copiar archivos al directorio raíz del sitio
 log_info "Copiando archivos al directorio raíz del sitio..."
 cp -r dist/* "\$SITE_ROOT/"
+
 log_info "✅ Despliegue completado. La aplicación está disponible en https://$FRONTEND_DOMAIN"
 EOF
   # Hacer ejecutable el script de despliegue
